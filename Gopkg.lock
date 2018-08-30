@@ -2,12 +2,12 @@
 
 
 [[projects]]
-  digest = "1:08e09eca4c60d5888522b035bb219eadf35e9a875d3c55787f807e245bfec5e3"
+  digest = "1:aaed192cf5cddb274ec614fd9b080b77d991d8b4bbfd448714db5c96cfb5ec2b"
   name = "github.com/orisano/usage"
   packages = ["."]
   pruneopts = "UT"
-  revision = "c57fc483ae3138d1d288a44f50563ea8e478002f"
-  version = "1.0.0"
+  revision = "b71537bf63f73f1f118b73614ca41649ce933c12"
+  version = "1.1.0"
 
 [solve-meta]
   analyzer-name = "dep"
