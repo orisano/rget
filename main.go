@@ -15,9 +15,8 @@ import (
 	"github.com/orisano/usage"
 )
 
-var (
-	Version = "HEAD (" + time.Now().Format(time.RFC3339) + ")"
-)
+var version string
+var buildVersion = "HEAD (" + time.Now().Format(time.RFC3339) + ")"
 
 var verbose = flag.Bool("v", false, "show verbose")
 
@@ -41,7 +40,11 @@ func main() {
 	log.SetPrefix("rget: ")
 
 	if *showVersion {
-		fmt.Println(Version)
+		if len(version) == 0 {
+			fmt.Println(buildVersion)
+		} else {
+			fmt.Println(version)
+		}
 		return
 	}
 
