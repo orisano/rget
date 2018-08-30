@@ -1,6 +1,6 @@
 .PHONY: release
 
-VERSION := 0.1.0
+VERSION := $(shell git describe --tags)
 LDFLAGS := '-s -w -X main.version=$(VERSION)'
 
 rget: main.go Gopkg.toml Gopkg.lock
