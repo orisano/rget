@@ -10,16 +10,17 @@ go get github.com/orisano/rget
 ```
 $ rget
 Usage of rget:
-  -P int
-    	maxprocs (default 4)
-  -b int
-    	block size (MB)
   -o string
     	output file path (required)
   -u string
     	url (required)
-  -v	show verbose
+  -b int
+    	block size (MB)
+  -P int
+    	maxprocs (default 4)
   -x	add executable flag
+  -v	show verbose
+  -V	show version
 ```
 
 ## Author
