@@ -1,4 +1,5 @@
 # rget
+rget is parallel downloader for GitHub release.
 
 ## Installation
 ```bash
