@@ -10,6 +10,13 @@ import (
 	"net/url"
 	"os"
 	"sync"
+	"time"
+
+	"github.com/orisano/usage"
+)
+
+var (
+	Version = "HEAD (" + time.Now().Format(time.RFC3339) + ")"
 )
 
 var verbose = flag.Bool("v", false, "show verbose")
@@ -20,15 +27,23 @@ type writeReq struct {
 }
 
 func main() {
+	flag.Usage = usage.Ordered("o", "u", "b", "P", "x", "v", "V")
+
 	outputPath := flag.String("o", "", "output file path (required)")
 	urlStr := flag.String("u", "", "url (required)")
 	procs := flag.Int("P", 4, "maxprocs")
 	blockSizeMB := flag.Int("b", 0, "block size (MB)")
 	executable := flag.Bool("x", false, "add executable flag")
+	showVersion := flag.Bool("V", false, "show version")
 	flag.Parse()
 
 	log.SetFlags(0)
 	log.SetPrefix("rget: ")
+
+	if *showVersion {
+		fmt.Println(Version)
+		return
+	}
 
 	if len(*outputPath) == 0 || len(*urlStr) == 0 {
 		flag.Usage()
