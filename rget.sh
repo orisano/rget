@@ -16,7 +16,6 @@ done
 shift $(($OPTIND - 1))
 
 CONTENT_LENGTH=`curl -IsSL -X GET $1 | grep Content-Length: | awk '$0=$2'`
-echo $CONTENT_LENGTH
-seq 0 $BLOCKSIZE $CONTENT_LENGTH | awk -v BS=$BLOCKSIZE -v WD=$WORKDIR '{print "-SsL -r " sprintf("%d-%d", $0, $0 + BS - 1) " -o " sprintf("%s/%05d", WD, NR)}' | xargs -n 5 -P $PROCESS -I{} sh -c "curl {} $1"
+seq 0 $BLOCKSIZE $CONTENT_LENGTH | awk -v BS=$BLOCKSIZE -v WD=$WORKDIR '{printf("-SsL -r %d-%d -o %s/%05d\n", $0, $0 + BS - 1, WD, NR)}' | xargs -n 5 -P $PROCESS -I{} sh -c "curl {} $1"
 cat $WORKDIR/* > $OUTPUT
 rm -rf $WORKDIR
