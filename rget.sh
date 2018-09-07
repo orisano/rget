@@ -44,7 +44,7 @@ GEN_PARAM=`cat<<'EOF'
 }
 EOF`
 
-seq 0 ${BLOCK_SIZE} $(($CONTENT_LENGTH - 1)) | awk -v BLOCK_SIZE=${BLOCK_SIZE} -v WORK_DIR=${WORK_DIR} "${GEN_PARAM}" | xargs -n 12 -P ${PROCESS} -I{} sh -c "{} ${URL}"
+seq 0 ${BLOCK_SIZE} $((${CONTENT_LENGTH} - 1)) | awk -v BLOCK_SIZE=${BLOCK_SIZE} -v WORK_DIR=${WORK_DIR} "${GEN_PARAM}" | xargs -n 12 -P ${PROCESS} -I{} sh -c "{} ${URL}"
 
 rm -rf ${OUTPUT} || true
 for block in ${WORK_DIR}/*; do
