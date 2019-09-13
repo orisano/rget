@@ -97,26 +97,33 @@ func main() {
 		go func() {
 			for b := range blockCh {
 				offset := b * blockSize
-				req, _ := http.NewRequest(http.MethodGet, *urlStr, nil)
 				rangeVal := fmt.Sprint("bytes=", offset, "-", offset+blockSize-1)
-				req.Header.Set("Range", rangeVal)
 
-				resp, err := http.DefaultClient.Do(req)
-				if err != nil {
-					log.Fatalf("failed to request: %v", err)
-				}
-				verbosefln("downloading... %v", rangeVal)
-				buf := pool.Get().(*bytes.Buffer)
-				buf.Reset()
-				_, err = io.Copy(buf, resp.Body)
-				if err != nil && err != io.EOF {
-					log.Fatalf("failed to read body: %v", err)
-				}
-				resp.Body.Close()
+				for {
+					req, _ := http.NewRequest(http.MethodGet, *urlStr, nil)
+					req.Header.Set("Range", rangeVal)
+					resp, err := http.DefaultClient.Do(req)
+					if err != nil {
+						log.Fatalf("failed to request: %v", err)
+					}
+					verbosefln("downloading... %v", rangeVal)
+					buf := pool.Get().(*bytes.Buffer)
+					buf.Reset()
+					_, err = io.Copy(buf, resp.Body)
+					if isTemporary(err) {
+						verbosefln("got temporary error, will attempt to retry: %v", err.Error())
+						continue
+					}
+					if err != nil && err != io.EOF {
+						log.Fatalf("failed to read body: %v", err)
+					}
+					resp.Body.Close()
 
-				writeReqCh <- writeReq{
-					offset: offset,
-					buf:    buf,
+					writeReqCh <- writeReq{
+						offset: offset,
+						buf:    buf,
+					}
+					break
 				}
 			}
 		}()
@@ -154,4 +161,12 @@ func getContentLength(urlStr string) (int, error) {
 	}
 	resp.Body.Close()
 	return int(resp.ContentLength), nil
+}
+
+func isTemporary(err error) bool {
+	type temporary interface {
+		Temporary() bool
+	}
+	te, ok := err.(temporary)
+	return ok && te.Temporary()
 }
