@@ -134,7 +134,7 @@ func main() {
 		if _, err := f.Seek(int64(wr.offset), 0); err != nil {
 			log.Fatalf("failed to seek file: %v", err)
 		}
-		verbosefln("writing... %v", wr.offset)
+		verbosefln("writing... (%d/%d): %v", i+1, blocks, wr.offset)
 		if _, err := io.Copy(f, wr.buf); err != nil {
 			log.Fatalf("failed to write file: %v", err)
 		}
