@@ -7,7 +7,7 @@ go get github.com/orisano/rget
 ```
 or
 ```bash
-wget -O - https://github.com/orisano/rget/releases/download/0.1.1/rget-linux-amd64.gz | gzip -d -c > /usr/local/bin/rget && chmod +x /usr/local/bin/rget
+wget -O - https://github.com/orisano/rget/releases/download/0.1.3/rget-linux-amd64.gz | gzip -d -c > /usr/local/bin/rget && chmod +x /usr/local/bin/rget
 ```
 
 ## How to use
