@@ -10,13 +10,12 @@ import (
 	"net/url"
 	"os"
 	"sync"
-	"time"
 
 	"github.com/orisano/usage"
 )
 
 var version string
-var buildVersion = "HEAD (" + time.Now().Format(time.RFC3339) + ")"
+var buildVersion = "unknown"
 
 var verbose = flag.Bool("v", false, "show verbose")
 
