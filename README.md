@@ -5,10 +5,6 @@ rget is the parallel downloader for GitHub release.
 ```bash
 go get github.com/orisano/rget
 ```
-or
-```bash
-wget -O - https://github.com/orisano/rget/releases/download/0.1.4/rget-linux-amd64.gz | gzip -d -c > /usr/local/bin/rget && chmod +x /usr/local/bin/rget
-```
 
 ## How to use
 ```
